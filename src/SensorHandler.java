@@ -20,7 +20,6 @@ public class SensorHandler extends Thread {
 		
 		return instance;
 	}
-	
 	@Override
 	public void run()
 	{
@@ -35,11 +34,8 @@ public class SensorHandler extends Thread {
 			for(UpdatingSensor us : sensorList)
 			{
 				us.updateState();
-			}
-			
+			}	
 		}
-		
-		
 	}
 	
 	public void addSensor(UpdatingSensor updatingSensor)

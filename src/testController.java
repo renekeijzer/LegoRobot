@@ -14,7 +14,8 @@ public class testController implements SensorListener{
 	@Override
 	public void stateChanged(UpdatingSensor updatingSensor, int oldValue,
 			int newValue) {
-		System.out.println("Sensor:"+updatingSensor+" Oldvalue = " + oldValue + " New Value = " + newValue);
+		System.out.println("Sensor:"+updatingSensor+" Oldvalue = "
+			+ oldValue + " New Value = " + newValue);
 		
 	}
 }
