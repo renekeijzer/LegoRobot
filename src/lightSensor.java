@@ -3,6 +3,15 @@ import java.util.ArrayList;
 import lejos.nxt.ADSensorPort;
 import lejos.nxt.LightSensor;
 
+/**
+ * @author      René Keijzer <>
+ * @author 		tom Verloop <Tom_Verloop@live.nl>
+ * @version     1.0
+ * @since       18-3-2014
+ *
+ * Container class of the Light Sensor
+ */
+
 public class lightSensor extends LightSensor implements UpdatingSensor {
 
 	private int Lightvalue;
@@ -16,6 +25,9 @@ public class lightSensor extends LightSensor implements UpdatingSensor {
 		Lightvalue = 0;
 	}
 
+	/**
+	 * Handles the update to the listeners
+	 */
 	@Override
 	public void updateState() {
 		int newLightValue = this.getLightValue();
@@ -28,11 +40,18 @@ public class lightSensor extends LightSensor implements UpdatingSensor {
 			}
 		}
 	}
-
+	/**
+	 * Adds a Sensorlistener to the ListenerList
+	 * 
+	 * @param Sl
+	 *            The listener to add
+	 */
 	public void addListener(SensorListener SL) {
 		this.listenerList.add(SL);
 	}
-
+	/**
+	 * @return returns the name of the sensor
+	 */
 	@Override
 	public String toString() {
 		return "Light sensor";

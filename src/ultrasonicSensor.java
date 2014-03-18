@@ -3,11 +3,20 @@ import java.util.ArrayList;
 import lejos.nxt.I2CPort;
 import lejos.nxt.UltrasonicSensor;
 
+/**
+ * @author René Keijzer <>
+ * @author tom Verloop <Tom_Verloop@live.nl>
+ * @version 1.0
+ * @since 18-3-2014
+ * 
+ *        Container class of the Ultrasonic Sensor
+ */
 public class ultrasonicSensor extends UltrasonicSensor implements
 		UpdatingSensor {
 
-	private int Distance;
-	private ArrayList<SensorListener> listenerList;
+	private int Distance; // /< the distance of the sensor to an object
+	private ArrayList<SensorListener> listenerList; // /< a list of sensor
+													// listeners
 
 	public ultrasonicSensor(I2CPort port) {
 		super(port);
@@ -17,6 +26,9 @@ public class ultrasonicSensor extends UltrasonicSensor implements
 		Distance = 0;
 	}
 
+	/**
+	 * Handles the update to the listeners
+	 */
 	@Override
 	public void updateState() {
 		int newDistance = this.getDistance();
@@ -30,10 +42,22 @@ public class ultrasonicSensor extends UltrasonicSensor implements
 		}
 	}
 
+	/**
+	 * Adds a Sensorlistener to the ListenerList
+	 * 
+	 * @param Sl
+	 *            The listener to add
+	 */
 	public void addListener(SensorListener SL) {
 		this.listenerList.add(SL);
 	}
 
+	/**
+	 * adds a sensor to the list
+	 * 
+	 * @param updatingSensor
+	 *            is the sensor to add to the list
+	 */
 	@Override
 	public String toString() {
 		return "Ultrasonic sensor";
