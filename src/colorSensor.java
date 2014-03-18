@@ -6,6 +6,7 @@ public class colorSensor extends ColorSensor implements UpdatingSensor{
 
 	
 	private int Lightvalue;
+	
 	public colorSensor(SensorPort port) {
 		super(port);
 		Lightvalue = 0;
