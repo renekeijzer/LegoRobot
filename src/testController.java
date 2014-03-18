@@ -19,9 +19,6 @@ public class testController implements SensorListener {
 		C.forward();
 		left = 0;
 		right = 0;
-
-		// for (;;) {
-		// }
 	}
 
 	@Override
@@ -67,6 +64,5 @@ public class testController implements SensorListener {
 			C.setSpeed(400);
 			A.setSpeed(400);
 		}
-
 	}
 }

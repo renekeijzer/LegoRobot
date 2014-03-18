@@ -41,11 +41,11 @@ public class SensorHandler extends Thread {
 			}
 			for (UpdatingSensor us : sensorList) {
 				us.updateState();
-			}
 
+			}	
 		}
 
-	}
+			}
 /**
  * adds a sensor to the list
  * 

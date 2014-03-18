@@ -43,8 +43,7 @@ public class lightSensor extends LightSensor implements UpdatingSensor {
 	/**
 	 * Adds a Sensorlistener to the ListenerList
 	 * 
-	 * @param Sl
-	 *            The listener to add
+	 * @param Sl The listener to add
 	 */
 	public void addListener(SensorListener SL) {
 		this.listenerList.add(SL);
