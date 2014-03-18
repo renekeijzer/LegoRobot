@@ -57,4 +57,11 @@ public class SensorHandler extends Thread {
 			this.start();
 		}
 	}
+	
+	public void massCalibrate()
+	{
+		for (UpdatingSensor us : sensorList) {
+			us.Calibrate();
+		}
+	}
 }

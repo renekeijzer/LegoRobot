@@ -14,8 +14,8 @@ import lejos.nxt.LightSensor;
 
 public class lightSensor extends LightSensor implements UpdatingSensor {
 
-	private int Lightvalue;
-	private ArrayList<SensorListener> listenerList;
+	private int Lightvalue;  // /< keeps the value of the colorsensor
+	private ArrayList<SensorListener> listenerList; // /< keeps a list of Sensorlisteners
 
 	public lightSensor(ADSensorPort port) {
 		super(port);
@@ -57,4 +57,14 @@ public class lightSensor extends LightSensor implements UpdatingSensor {
 		return "Light sensor";
 	}
 
+	@Override
+	public void Calibrate() {
+		int value = this.readValue();
+		if(value < this.getLow())
+		{
+			this.calibrateLow();
+		}
+		if(value > this.getHigh())
+			this.calibrateHigh();
+	}
 }

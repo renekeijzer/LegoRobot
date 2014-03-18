@@ -11,5 +11,8 @@ public interface UpdatingSensor {
 	/**
 	 * the abstract method to be implemented by the sensor object
 	 */
+	
 	public void updateState();
+	
+	public void Calibrate();
 }
