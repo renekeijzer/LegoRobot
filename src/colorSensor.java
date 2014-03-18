@@ -5,11 +5,10 @@ import lejos.nxt.SensorPort;
 public class colorSensor extends ColorSensor implements UpdatingSensor{
 
 	
-	public int value = 0;
-		
+	private int Lightvalue;
 	public colorSensor(SensorPort port) {
 		super(port);
-		// TODO Auto-generated constructor stub
+		Lightvalue = 0;
 	}
 
 	@Override
