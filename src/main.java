@@ -29,7 +29,7 @@ public class main {
 			SensorHandler.getInstance().massCalibrate();
 		}
 		SensorHandler.getInstance().start();
-		testController test = new testController();
+		LineFollowerController test = new LineFollowerController();
 
 		ls.addListener(test);
 		cs.addListener(test);

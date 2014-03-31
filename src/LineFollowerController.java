@@ -3,7 +3,15 @@ import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
 
-public class testController extends Thread implements SensorListener
+/**
+ * @author tom Verloop <Tom_Verloop@live.nl>
+ * @version 1.0
+ * @since 18-3-2014
+ * 
+ *        Contains the class that folows the line
+ */
+
+public class LineFollowerController extends Thread implements SensorListener
 {
 
 	private NXTRegulatedMotor A;
@@ -15,7 +23,7 @@ public class testController extends Thread implements SensorListener
 	private static final int MAX_SPEED = 600;
 	private static final int ACTION_DIF = 10;
 
-	public testController()
+	public LineFollowerController()
 	{
 		A = Motor.A;
 		C = Motor.C;
@@ -70,14 +78,14 @@ public class testController extends Thread implements SensorListener
 	{
 		while (!stop)
 		{
-			if (left > right && Math.abs(left - right) > 10)
+			if (left > right && Math.abs(left - right) > 15)
 			{
 				if (C.getSpeed() < MAX_SPEED)
 				{
 					C.setSpeed(C.getSpeed() + 30);
 					A.setSpeed(A.getSpeed() - 40);
 				}
-			} else if (left < right && Math.abs(left - right) > 10)
+			} else if (left < right && Math.abs(left - right) > 15)
 			{
 				if (C.getSpeed() > 200)
 				{
