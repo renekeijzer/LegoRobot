@@ -1,24 +1,29 @@
 import java.util.ArrayList;
 
 import lejos.nxt.ADSensorPort;
+import lejos.nxt.Button;
 import lejos.nxt.LightSensor;
 
 /**
- * @author      René Keijzer <>
- * @author 		tom Verloop <Tom_Verloop@live.nl>
- * @version     1.0
- * @since       18-3-2014
- *
- * Container class of the Light Sensor
+ * @author René Keijzer <>
+ * @author tom Verloop <Tom_Verloop@live.nl>
+ * @version 1.0
+ * @since 18-3-2014
+ * 
+ *        Container class of the Light Sensor
  */
 
 public class lightSensor extends LightSensor implements UpdatingSensor {
 
-	private int Lightvalue;  // /< keeps the value of the colorsensor
-	private ArrayList<SensorListener> listenerList; // /< keeps a list of Sensorlisteners
+	private int _high = 0;
+	private int _low = 1023;
+	private int Lightvalue; // /< keeps the value of the colorsensor
+	private ArrayList<SensorListener> listenerList; // /< keeps a list of
+													// Sensorlisteners
 
 	public lightSensor(ADSensorPort port) {
 		super(port);
+		this.setFloodlight(true);
 		listenerList = new ArrayList<SensorListener>();
 		SensorHandler handler = SensorHandler.getInstance();
 		handler.addSensor(this);
@@ -28,11 +33,10 @@ public class lightSensor extends LightSensor implements UpdatingSensor {
 	/**
 	 * Handles the update to the listeners
 	 */
-	@Override
 	public void updateState() {
-		int newLightValue = this.getLightValue();
+		int newLightValue = this.getValue();
 		if (Lightvalue != newLightValue) {
-			if (this.listenerList.size() != 0) {
+			if (this.listenerList.size() > 0) {
 				for (SensorListener sl : listenerList) {
 					sl.stateChanged(this, Lightvalue, newLightValue);
 					Lightvalue = newLightValue;
@@ -40,14 +44,17 @@ public class lightSensor extends LightSensor implements UpdatingSensor {
 			}
 		}
 	}
+
 	/**
 	 * Adds a Sensorlistener to the ListenerList
 	 * 
-	 * @param Sl The listener to add
+	 * @param Sl
+	 *            The listener to add
 	 */
 	public void addListener(SensorListener SL) {
 		this.listenerList.add(SL);
 	}
+
 	/**
 	 * @return returns the name of the sensor
 	 */
@@ -56,14 +63,23 @@ public class lightSensor extends LightSensor implements UpdatingSensor {
 		return "Light sensor";
 	}
 
-	@Override
 	public void Calibrate() {
-		int value = this.readValue();
-		if(value < this.getLow())
-		{
-			this.calibrateLow();
+		int value = this.readNormalizedValue();
+		if (value < _low) {
+			_low = value;
 		}
-		if(value > this.getHigh())
-			this.calibrateHigh();
+		if (value > _high)
+			_high = value;
+	}
+
+	public int getValue()
+
+	{
+		// LCD.drawInt(_low, 0, 2);
+
+		// LCD.drawInt(_high, 0, 3);
+			return 100 * (readNormalizedValue() - _low) / (_high - _low);
+		
+
 	}
 }

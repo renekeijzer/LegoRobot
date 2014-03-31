@@ -23,6 +23,7 @@ public class colorSensor extends ColorSensor implements UpdatingSensor {
 
 	public colorSensor(SensorPort port) {
 		super(port);
+		this.setFloodlight(true);
 		_high = getRawLightValue();
 		_low = getRawLightValue();
 		listenerList = new ArrayList<SensorListener>();
@@ -34,9 +35,8 @@ public class colorSensor extends ColorSensor implements UpdatingSensor {
 	/**
 	 * Handles the update to the listeners
 	 */
-	@Override
 	public void updateState() {
-		int newLightValue = this.getLightValue();
+		int newLightValue = this.getValue();
 		if (Lightvalue != newLightValue) {
 			if (this.listenerList.size() != 0) {
 				for (SensorListener sl : listenerList) {
@@ -65,9 +65,8 @@ public class colorSensor extends ColorSensor implements UpdatingSensor {
 		return "Color sensor";
 	}
 
-	@Override
 	public void Calibrate() {
-		int value = getRawLightValue();
+		int value = getNormalizedLightValue();
 		if (value < _low) {
 			_low = value;
 		}
@@ -75,13 +74,12 @@ public class colorSensor extends ColorSensor implements UpdatingSensor {
 			_high = value;
 	}
 
-	public int getLightValue()
+	public int getValue()
 
 	{
 		//LCD.drawInt(_low, 0, 2);
 		//LCD.drawInt(_high, 0, 3);
-		return 100 * (getRawLightValue() - _low) / (_high - _low);
-
+		return 100 * (getNormalizedLightValue() - _low) / (_high - _low);
 	}
 
 }
