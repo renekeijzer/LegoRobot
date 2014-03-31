@@ -5,6 +5,7 @@ import lejos.nxt.LCD;
 import lejos.nxt.SensorPort;
 
 /**
+ * @author Ricardo methai<><hoofd auteur>
  * @author René Keijzer <>
  * @author tom Verloop <Tom_Verloop@live.nl>
  * @version 1.0

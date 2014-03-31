@@ -5,7 +5,7 @@ import lejos.nxt.UltrasonicSensor;
 
 /**
  * @author René Keijzer <>
- * @author tom Verloop <Tom_Verloop@live.nl>
+ * @author tom Verloop <Tom_Verloop@live.nl><hoofdauteur tom>
  * @version 1.0
  * @since 18-3-2014
  * 

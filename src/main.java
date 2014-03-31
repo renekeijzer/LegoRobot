@@ -3,7 +3,13 @@ import lejos.nxt.Motor;
 import lejos.nxt.NXT;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
-
+/**
+ * @author Floris Rijker<><hoofd auteur>
+ * @version 1.0
+ * @since 18-3-2014
+ * 
+ *        Main class
+ */
 public class main {
 	
 	public static void main(String[] args) {

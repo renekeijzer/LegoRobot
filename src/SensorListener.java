@@ -1,5 +1,5 @@
 /**
- * @author      René Keijzer <>
+ * @author      René Keijzer <><hoofdAuteur>
  * @author 		tom Verloop <Tom_Verloop@live.nl>
  * @version     1.0
  * @since       18-3-2014

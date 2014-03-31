@@ -5,8 +5,9 @@ import lejos.nxt.Button;
 import lejos.nxt.LightSensor;
 
 /**
+ * 
  * @author René Keijzer <>
- * @author tom Verloop <Tom_Verloop@live.nl>
+ * @author tom Verloop <Tom_Verloop@live.nl><hoofdauteur>
  * @version 1.0
  * @since 18-3-2014
  * 
@@ -21,6 +22,10 @@ public class lightSensor extends LightSensor implements UpdatingSensor {
 	private ArrayList<SensorListener> listenerList; // /< keeps a list of
 													// Sensorlisteners
 
+	/**
+	 * Initiating the lightsensor object
+	 * @param port of the light sensor
+	 */
 	public lightSensor(ADSensorPort port) {
 		super(port);
 		this.setFloodlight(true);
@@ -72,8 +77,11 @@ public class lightSensor extends LightSensor implements UpdatingSensor {
 			_high = value;
 	}
 
+	/**
+	 *  Gets the non-calibrated-value of the lightsensor
+	 * @return returns the non-calibrated light value
+	 */
 	public int getValue()
-
 	{
 		// LCD.drawInt(_low, 0, 2);
 
