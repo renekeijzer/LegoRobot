@@ -20,25 +20,28 @@ public class main {
 		motora.setSpeed(200);
 		motorc.setSpeed(200);
 
-		lightSensor ls = new lightSensor(SensorPort.S2);
-		colorSensor cs = new colorSensor(SensorPort.S3);
+		ultrasonicSensor ultrasonicSensor = new ultrasonicSensor(SensorPort.S1);
+		lightSensor lightSensor = new lightSensor(SensorPort.S2);
+		colorSensor colorSensor = new colorSensor(SensorPort.S3);
 
 		try{
 		motora.rotate((int)Math.round(360 * 2.73),true);
 		motorc.rotate((int)Math.round((360 * 2.73)*-1),true);
 		}catch(Exception Ex)
 		{
-			System.out.print("wut");
+			Ex.printStackTrace();
 		}
 		while(motorc.isMoving())
 		{
 			SensorHandler.getInstance().massCalibrate();
 		}
 		SensorHandler.getInstance().start();
-		LineFollowerController test = new LineFollowerController();
-
-		ls.addListener(test);
-		cs.addListener(test);
+		//LineFollowerController lineFollowController = new LineFollowerController();
+		AvoidanceController avoidanceController = new AvoidanceController();
+		
+		ultrasonicSensor.addListener(avoidanceController);
+		//lightSensor.addListener(lineFollowController);
+		//colorSensor.addListener(lineFollowController);
 		
 		Button.ESCAPE.waitForPress();
 	}
