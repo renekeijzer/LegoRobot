@@ -1,5 +1,9 @@
 /**
+<<<<<<< HEAD
  * @author      René Keijzer <>
+=======
+ * @author      René Keijzer <><hoofdAuteur>
+>>>>>>> ee0eae0077b07a2ac714600a728265fa499f681e
  * @author 		tom Verloop <Tom_Verloop@live.nl>
  * @version     1.0
  * @since       18-3-2014
