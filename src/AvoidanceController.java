@@ -26,7 +26,7 @@ public class AvoidanceController implements SensorListener, Runnable{
 	@Override
 	public void stateChanged(UpdatingSensor updatingSensor, int oldValue,
 			int newValue) {
-		if(newValue < 33 && !arcDriving)
+		if(newValue < 25 && !arcDriving)
 		{
 			LCD.drawInt(newValue,0,0);
 			arcDriving = true;
@@ -39,13 +39,7 @@ public class AvoidanceController implements SensorListener, Runnable{
 	public void DriveArc()
 	{
 	
-		motora.setSpeed(400);
-		motorc.setSpeed(400);
-		motora.rotate((int) Math.round(125 * 2.73), true);
-		motorc.rotate((int) Math.round(125* 2.73), true);
-		while(motorc.isMoving())
-		{
-		}
+		
 		motora.setSpeed(400);
 		motora.rotate((int)Math.round(fortyfiveDegree * 2.73),true);
 		motorc.setSpeed(0);
