@@ -8,7 +8,7 @@ import lejos.nxt.SensorPort;
  * @version 1.0
  * @since 18-3-2014
  * 
- *        Contains the class that folows the line
+ *        Contains the class that follows the line
  */
 
 public class LineFollowerController extends Thread implements SensorListener
@@ -19,6 +19,7 @@ public class LineFollowerController extends Thread implements SensorListener
 	private int leftSensorValue = 0;
 	private int rightSensorValue = 0;
 	private boolean stopRun = false;
+	private State state = State.Straight;
 
 	public LineFollowerController()
 	{
@@ -30,69 +31,79 @@ public class LineFollowerController extends Thread implements SensorListener
 		motorC.forward();
 		leftSensorValue = 0;
 		rightSensorValue = 0;
+
 		this.start();
 	}
 
 	public void stateChanged(UpdatingSensor updatingSensor, int oldValue,
-			int newValue)
-	{
-		/*
-		 * if (updatingSensor.getClass() == colorSensor.class) {
-		 * LCD.drawString("Right:" + newValue, 0, 0); if (oldValue < newValue &&
-		 * newValue > 50) { C.setSpeed(C.getSpeed() - 10);
-		 * A.setSpeed(A.getSpeed() + 10); } else if(oldValue > newValue &&
-		 * newValue < 50) {
-		 * 
-		 * C.setSpeed(C.getSpeed() + 10); A.setSpeed(A.getSpeed() - 10); } } if
-		 * (updatingSensor.getClass() == lightSensor.class) {
-		 * 
-		 * LCD.drawString("left:" + newValue, 0, 1); if (oldValue < newValue &&
-		 * newValue > 50) {
-		 * 
-		 * C.setSpeed(C.getSpeed() + 10); A.setSpeed(A.getSpeed() - 10); } else
-		 * if (oldValue > newValue && newValue < 50) {
-		 * 
-		 * C.setSpeed(C.getSpeed() - 5); A.setSpeed(A.getSpeed() + 5); } }
-		 */
-
-		if (updatingSensor.toString().equals("Color sensor"))
-		{
+			int newValue) {
+		if (updatingSensor.toString().equals("Color sensor")) {
 			rightSensorValue = newValue;
 		}
-		if (updatingSensor.toString().equals("Light sensor"))
-		{
+		if (updatingSensor.toString().equals("Light sensor")) {
 			leftSensorValue = newValue;
 		}
 		LCD.clear();
-		LCD.drawInt(Math.abs(leftSensorValue - rightSensorValue), 0, 0);
-		LCD.drawString("Light Sensor:" + leftSensorValue, 0, 1);
-		LCD.drawString("Color Sensor:" + rightSensorValue, 0, 2);
+		// LCD.drawInt(Math.abs(left - right), 0, 0);
+		// LCD.drawString("Light Sensor:" + left, 0, 1);
+		// LCD.drawString("Color Sensor:" + right, 0, 2);
+
+		LCD.drawString("state: " + state, 0, 0);
+		LCD.drawString("left: " + leftSensorValue, 0, 1);
+		LCD.drawString("right: " + rightSensorValue, 0, 2);
+
 
 	}
 
 	@Override
-	public synchronized void run()
-	{
-		while (true)
-		{
-			if (leftSensorValue > rightSensorValue && Math.abs(leftSensorValue - rightSensorValue) > 15)
-			{
-				if (motorC.getSpeed() < GlobalValues.MAX_SPEED)
-				{
+	public void run() {
+		while (!stopRun) {
+			if (leftSensorValue > 70) {
+				if(motorC.getSpeed() > GlobalValues.MAX_SPEED){
+				motorC.setSpeed(motorC.getSpeed() + 30);
+				motorA.setSpeed(motorA.getSpeed() - 40);}
+			} else if (rightSensorValue > 70) {
+
+				if(motorA.getSpeed() > GlobalValues.MAX_SPEED){
+				motorC.setSpeed(motorC.getSpeed() - 40);
+					motorA.setSpeed(motorA.getSpeed() + 30);
+				}
+			}
+			else if (leftSensorValue > rightSensorValue && Math.abs(leftSensorValue - rightSensorValue) > 15) {
+				if (motorC.getSpeed() < GlobalValues.MAX_SPEED) {
+					state = state.Left;
 					motorC.setSpeed(motorC.getSpeed() + 30);
 					motorA.setSpeed(motorA.getSpeed() - 40);
 				}
-			} else if (leftSensorValue < rightSensorValue && Math.abs(leftSensorValue - rightSensorValue) > 15)
-			{
-				if (motorC.getSpeed() > 200)
-				{
+			} else if (leftSensorValue < rightSensorValue && Math.abs(leftSensorValue - rightSensorValue) > 15) {
+				if (motorC.getSpeed() > 200) {
+					state = state.Right;
 					motorC.setSpeed(motorC.getSpeed() - 40);
 					motorA.setSpeed(motorA.getSpeed() + 30);
 				}
-			} else
-			{
-				motorC.setSpeed(400);
-				motorA.setSpeed(400);
+			} else {
+//				if (left > 70 && right > 70 && state != state.Straight) {
+//					switch (state) {
+//					case Right:
+//						if (A.getSpeed() < MAX_SPEED) {
+//							C.setSpeed(C.getSpeed() - 40);
+//							A.setSpeed(A.getSpeed() + 30);
+//						}
+//						break;
+//					case Left:
+//						if (C.getSpeed() < MAX_SPEED) {
+//							C.setSpeed(C.getSpeed() + 30);
+//							A.setSpeed(A.getSpeed() - 40);
+//						}
+//						break;
+//					default:
+//						break;
+//					}
+//				} else {
+//					state = state.Straight;
+					motorC.setSpeed(400);
+					motorA.setSpeed(400);
+//				}
 			}
 			while(!stopRun)
 			{

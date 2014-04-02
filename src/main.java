@@ -15,6 +15,7 @@ public class main {
 
 
 	public static void main(String[] args) {
+		Button.waitForAnyPress();
 		NXTRegulatedMotor motora = Motor.A;
 		NXTRegulatedMotor motorc = Motor.C;
 
@@ -42,13 +43,13 @@ public class main {
 			SensorHandler.getInstance().massCalibrate();
 		}
 		SensorHandler.getInstance().start();
-		// LineFollowerController lineFollowController = new
-		// LineFollowerController();
-		AvoidanceController avoidanceController = new AvoidanceController();
-
-		ultrasonicSensor.addListener(avoidanceController);
-		// lightSensor.addListener(lineFollowController);
-		// colorSensor.addListener(lineFollowController);
+		LineFollowerController lineFollowController = new LineFollowerController();
+		//AvoidanceController avoidanceController = new AvoidanceController();
+		
+		//ultrasonicSensor.addListener(avoidanceController);
+		lightSensor.addListener(lineFollowController);
+		colorSensor.addListener(lineFollowController);
+		
 
 		Button.ESCAPE.waitForPress();
 	}
