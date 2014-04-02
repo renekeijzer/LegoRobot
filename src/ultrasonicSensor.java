@@ -5,11 +5,7 @@ import lejos.nxt.UltrasonicSensor;
 
 /**
  * @author René Keijzer <>
-<<<<<<< HEAD
- * @author tom Verloop <Tom_Verloop@live.nl>
-=======
  * @author tom Verloop <Tom_Verloop@live.nl><hoofdauteur tom>
->>>>>>> ee0eae0077b07a2ac714600a728265fa499f681e
  * @version 1.0
  * @since 18-3-2014
  * 
@@ -33,10 +29,6 @@ public class ultrasonicSensor extends UltrasonicSensor implements
 	/**
 	 * Handles the update to the listeners
 	 */
-<<<<<<< HEAD
-	@Override
-=======
->>>>>>> ee0eae0077b07a2ac714600a728265fa499f681e
 	public void updateState() {
 		int newDistance = this.getDistance();
 		if (Distance != newDistance) {
@@ -70,12 +62,9 @@ public class ultrasonicSensor extends UltrasonicSensor implements
 		return "Ultrasonic sensor";
 	}
 
-<<<<<<< HEAD
-=======
 	public void Calibrate() {
 		// TODO Auto-generated method stub
 
 	}
 
->>>>>>> ee0eae0077b07a2ac714600a728265fa499f681e
 }

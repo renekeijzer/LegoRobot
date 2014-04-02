@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-public class main {
-
-	public static void main(String[] args) {
-		new testController();
-
-=======
 import lejos.nxt.Button;
 import lejos.nxt.Motor;
 import lejos.nxt.NXT;
@@ -51,7 +44,6 @@ public class main {
 		//colorSensor.addListener(lineFollowController);
 		
 		Button.ESCAPE.waitForPress();
->>>>>>> ee0eae0077b07a2ac714600a728265fa499f681e
 	}
 
 }
