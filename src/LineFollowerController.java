@@ -14,25 +14,22 @@ import lejos.nxt.SensorPort;
 public class LineFollowerController extends Thread implements SensorListener
 {
 
-	private NXTRegulatedMotor A;
-	private NXTRegulatedMotor C;
-	private int left = 0;
-	private int right = 0;
-	private boolean stop = false;
-	private static final int START_SPEED = 400;
-	private static final int MAX_SPEED = 600;
-	private static final int ACTION_DIF = 10;
+	private NXTRegulatedMotor motorA;
+	private NXTRegulatedMotor motorC;
+	private int leftSensorValue = 0;
+	private int rightSensorValue = 0;
+	private boolean stopRun = false;
 
 	public LineFollowerController()
 	{
-		A = Motor.A;
-		C = Motor.C;
-		A.setSpeed(START_SPEED);
-		C.setSpeed(START_SPEED);
-		A.forward();
-		C.forward();
-		left = 0;
-		right = 0;
+		motorA = Motor.A;
+		motorC = Motor.C;
+		motorA.setSpeed(GlobalValues.START_SPEED);
+		motorC.setSpeed(GlobalValues.START_SPEED);
+		motorA.forward();
+		motorC.forward();
+		leftSensorValue = 0;
+		rightSensorValue = 0;
 		this.start();
 	}
 
@@ -60,43 +57,63 @@ public class LineFollowerController extends Thread implements SensorListener
 
 		if (updatingSensor.toString().equals("Color sensor"))
 		{
-			right = newValue;
+			rightSensorValue = newValue;
 		}
 		if (updatingSensor.toString().equals("Light sensor"))
 		{
-			left = newValue;
+			leftSensorValue = newValue;
 		}
 		LCD.clear();
-		LCD.drawInt(Math.abs(left - right), 0, 0);
-		LCD.drawString("Light Sensor:" + left, 0, 1);
-		LCD.drawString("Color Sensor:" + right, 0, 2);
+		LCD.drawInt(Math.abs(leftSensorValue - rightSensorValue), 0, 0);
+		LCD.drawString("Light Sensor:" + leftSensorValue, 0, 1);
+		LCD.drawString("Color Sensor:" + rightSensorValue, 0, 2);
 
 	}
 
 	@Override
-	public void run()
+	public synchronized void run()
 	{
-		while (!stop)
+		while (true)
 		{
-			if (left > right && Math.abs(left - right) > 15)
+			if (leftSensorValue > rightSensorValue && Math.abs(leftSensorValue - rightSensorValue) > 15)
 			{
-				if (C.getSpeed() < MAX_SPEED)
+				if (motorC.getSpeed() < GlobalValues.MAX_SPEED)
 				{
-					C.setSpeed(C.getSpeed() + 30);
-					A.setSpeed(A.getSpeed() - 40);
+					motorC.setSpeed(motorC.getSpeed() + 30);
+					motorA.setSpeed(motorA.getSpeed() - 40);
 				}
-			} else if (left < right && Math.abs(left - right) > 15)
+			} else if (leftSensorValue < rightSensorValue && Math.abs(leftSensorValue - rightSensorValue) > 15)
 			{
-				if (C.getSpeed() > 200)
+				if (motorC.getSpeed() > 200)
 				{
-					C.setSpeed(C.getSpeed() - 40);
-					A.setSpeed(A.getSpeed() + 30);
+					motorC.setSpeed(motorC.getSpeed() - 40);
+					motorA.setSpeed(motorA.getSpeed() + 30);
 				}
 			} else
 			{
-				C.setSpeed(400);
-				A.setSpeed(400);
+				motorC.setSpeed(400);
+				motorA.setSpeed(400);
+			}
+			while(!stopRun)
+			{
+				try {
+					wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
+	}
+	
+	public synchronized void enable()
+	{
+		stopRun = true;
+		notifyAll();
+	}
+	
+	public void disable()
+	{
+		stopRun = false;
 	}
 }
