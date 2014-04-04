@@ -8,7 +8,7 @@ import lejos.nxt.SensorPort;
  * @version 1.0
  * @since 18-3-2014
  * 
- *        Contains the class that folows the line
+ *        Contains the class that follows the line
  */
 
 public class LineFollowerController extends Thread implements SensorListener
@@ -30,31 +30,13 @@ public class LineFollowerController extends Thread implements SensorListener
 		motorC.forward();
 		leftSensorValue = 0;
 		rightSensorValue = 0;
+
 		this.start();
 	}
 
 	public void stateChanged(UpdatingSensor updatingSensor, int oldValue,
 			int newValue)
 	{
-		/*
-		 * if (updatingSensor.getClass() == colorSensor.class) {
-		 * LCD.drawString("Right:" + newValue, 0, 0); if (oldValue < newValue &&
-		 * newValue > 50) { C.setSpeed(C.getSpeed() - 10);
-		 * A.setSpeed(A.getSpeed() + 10); } else if(oldValue > newValue &&
-		 * newValue < 50) {
-		 * 
-		 * C.setSpeed(C.getSpeed() + 10); A.setSpeed(A.getSpeed() - 10); } } if
-		 * (updatingSensor.getClass() == lightSensor.class) {
-		 * 
-		 * LCD.drawString("left:" + newValue, 0, 1); if (oldValue < newValue &&
-		 * newValue > 50) {
-		 * 
-		 * C.setSpeed(C.getSpeed() + 10); A.setSpeed(A.getSpeed() - 10); } else
-		 * if (oldValue > newValue && newValue < 50) {
-		 * 
-		 * C.setSpeed(C.getSpeed() - 5); A.setSpeed(A.getSpeed() + 5); } }
-		 */
-
 		if (updatingSensor.toString().equals("Color sensor"))
 		{
 			rightSensorValue = newValue;
@@ -63,10 +45,6 @@ public class LineFollowerController extends Thread implements SensorListener
 		{
 			leftSensorValue = newValue;
 		}
-		LCD.clear();
-		LCD.drawInt(Math.abs(leftSensorValue - rightSensorValue), 0, 0);
-		LCD.drawString("Light Sensor:" + leftSensorValue, 0, 1);
-		LCD.drawString("Color Sensor:" + rightSensorValue, 0, 2);
 
 	}
 
@@ -75,45 +53,56 @@ public class LineFollowerController extends Thread implements SensorListener
 	{
 		while (true)
 		{
-			if (leftSensorValue > rightSensorValue && Math.abs(leftSensorValue - rightSensorValue) > 15)
+			if (leftSensorValue > rightSensorValue
+					&& Math.abs(leftSensorValue - rightSensorValue) > GlobalValues.ACTION_DIF)
 			{
 				if (motorC.getSpeed() < GlobalValues.MAX_SPEED)
 				{
-					motorC.setSpeed(motorC.getSpeed() + 30);
-					motorA.setSpeed(motorA.getSpeed() - 40);
+					motorC.setSpeed(motorC.getSpeed()
+							+ GlobalValues.INCREASE_SPEED);
+					motorA.setSpeed(motorA.getSpeed()
+							- GlobalValues.DECREASE_SPEED);
 				}
-			} else if (leftSensorValue < rightSensorValue && Math.abs(leftSensorValue - rightSensorValue) > 15)
+			} else if (leftSensorValue < rightSensorValue
+					&& Math.abs(leftSensorValue - rightSensorValue) > GlobalValues.ACTION_DIF)
 			{
-				if (motorC.getSpeed() > 200)
+				if (motorC.getSpeed() > GlobalValues.MIN_SPEED)
 				{
-					motorC.setSpeed(motorC.getSpeed() - 40);
-					motorA.setSpeed(motorA.getSpeed() + 30);
+					motorC.setSpeed(motorC.getSpeed()
+							- GlobalValues.DECREASE_SPEED);
+					motorA.setSpeed(motorA.getSpeed()
+							+ GlobalValues.INCREASE_SPEED);
 				}
 			} else
 			{
-				motorC.setSpeed(400);
-				motorA.setSpeed(400);
+				motorC.setSpeed(GlobalValues.START_SPEED);
+				motorA.setSpeed(GlobalValues.START_SPEED);
 			}
-			while(!stopRun)
+			while (stopRun)
 			{
-				try {
+				try
+				{
+					System.out.println("WAIT");
 					wait();
-				} catch (InterruptedException e) {
+				} catch (InterruptedException e)
+				{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
 	}
-	
+
 	public synchronized void enable()
 	{
-		stopRun = true;
+		stopRun = false;
 		notifyAll();
+		System.out.println("GO!");
 	}
-	
+
 	public void disable()
 	{
-		stopRun = false;
+		System.out.println("DISABLED!");
+		stopRun = true;
 	}
 }

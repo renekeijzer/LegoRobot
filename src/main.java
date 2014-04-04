@@ -11,10 +11,12 @@ import lejos.nxt.SensorPort;
  * 
  *        Main class
  */
-public class main {
+public class main
+{
 
-
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
+		Button.waitForAnyPress();
 		NXTRegulatedMotor motora = Motor.A;
 		NXTRegulatedMotor motorc = Motor.C;
 
@@ -25,7 +27,8 @@ public class main {
 		lightSensor lightSensor = new lightSensor(SensorPort.S2);
 		colorSensor colorSensor = new colorSensor(SensorPort.S3);
 
-		try {
+		try
+		{
 			motora.rotate(
 					(int) Math.round(GlobalValues.DEGREES_OF_CIRCLE
 							* (Math.PI * GlobalValues.VEHICLE_WIDTH)
@@ -35,20 +38,22 @@ public class main {
 							* (Math.PI * GlobalValues.VEHICLE_WIDTH)
 							/ (Math.PI * GlobalValues.WHEEL_DIAMETER) * -1),
 					true);
-		} catch (Exception Ex) {
+		} catch (Exception Ex)
+		{
 			Ex.printStackTrace();
 		}
-		while (motorc.isMoving()) {
+		while (motorc.isMoving())
+		{
 			SensorHandler.getInstance().massCalibrate();
 		}
 		SensorHandler.getInstance().start();
-		// LineFollowerController lineFollowController = new
-		// LineFollowerController();
-		AvoidanceController avoidanceController = new AvoidanceController();
+		LineFollowerController lineFollowController = new LineFollowerController();
+		AvoidanceController avoidanceController = new AvoidanceController(
+				lineFollowController);
 
 		ultrasonicSensor.addListener(avoidanceController);
-		// lightSensor.addListener(lineFollowController);
-		// colorSensor.addListener(lineFollowController);
+		lightSensor.addListener(lineFollowController);
+		colorSensor.addListener(lineFollowController);
 
 		Button.ESCAPE.waitForPress();
 	}
