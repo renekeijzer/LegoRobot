@@ -49,9 +49,9 @@ public class LineFollowerController extends Thread implements SensorListener
 	}
 
 	@Override
-	public void run()
+	public synchronized void run()
 	{
-		while (!stopRun)
+		while (true)
 		{
 			if (leftSensorValue > rightSensorValue
 					&& Math.abs(leftSensorValue - rightSensorValue) > GlobalValues.ACTION_DIF)
@@ -78,28 +78,31 @@ public class LineFollowerController extends Thread implements SensorListener
 				motorC.setSpeed(GlobalValues.START_SPEED);
 				motorA.setSpeed(GlobalValues.START_SPEED);
 			}
-		}
-		while (!stopRun)
-		{
-			try
+			while (stopRun)
 			{
-				wait();
-			} catch (InterruptedException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				try
+				{
+					System.out.println("WAIT");
+					wait();
+				} catch (InterruptedException e)
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 
 	public synchronized void enable()
 	{
-		stopRun = true;
+		stopRun = false;
 		notifyAll();
+		System.out.println("GO!");
 	}
 
 	public void disable()
 	{
-		stopRun = false;
+		System.out.println("DISABLED!");
+		stopRun = true;
 	}
 }
