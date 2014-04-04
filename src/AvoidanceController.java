@@ -134,7 +134,6 @@ public class AvoidanceController extends Thread implements SensorListener
 				DriveAround();
 			}
 		}
-
 	}
 
 }
