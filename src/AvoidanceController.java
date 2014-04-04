@@ -68,83 +68,10 @@ public class AvoidanceController extends Thread implements SensorListener
 	public void DriveAround()
 	{
 		DriveArc(45, true);
-		Drive(2);
-		
-		//
-		// motorA.setSpeed(GlobalValues.START_SPEED);
-		// motorC.setSpeed(GlobalValues.START_SPEED);
-		// motorA.rotate(
-		// (int) Math.round(GlobalValues.DEGREES_OF_QUARTER_CIRCLE
-		// * (Math.PI * GlobalValues.VEHICLE_WIDTH)
-		// / (Math.PI * GlobalValues.WHEEL_DIAMETER)), true);
-		// motorC.rotate(
-		// (int) Math.round(GlobalValues.DEGREES_OF_QUARTER_CIRCLE
-		// * (Math.PI * GlobalValues.VEHICLE_WIDTH)
-		// / (Math.PI * GlobalValues.WHEEL_DIAMETER)), true);
-		//
-		// while (motorC.isMoving())
-		// {
-		// }
-		//
-		// motorC.setSpeed(GlobalValues.START_SPEED);
-		// motorC.rotate(
-		// (int) Math.round(GlobalValues.DEGREES_OF_HALF_CIRCLE
-		// * (Math.PI * GlobalValues.VEHICLE_WIDTH)
-		// / (Math.PI * GlobalValues.WHEEL_DIAMETER)), true);
-		// motorA.setSpeed(GlobalValues.STOP_SPEED);
-		// while (motorC.isMoving())
-		// {
-		// }
-		// motorA.setSpeed(GlobalValues.START_SPEED);
-		// motorA.rotate(
-		// (int) Math.round(GlobalValues.DEGREES_OF_WEAK_CORNER
-		// * (Math.PI * GlobalValues.VEHICLE_WIDTH)
-		// / (Math.PI * GlobalValues.WHEEL_DIAMETER)), true);
-		// motorC.rotate(
-		// (int) Math.round(GlobalValues.DEGREES_OF_WEAK_CORNER
-		// * (Math.PI * GlobalValues.VEHICLE_WIDTH)
-		// / (Math.PI * GlobalValues.WHEEL_DIAMETER)), true);
-		// while (motorC.isMoving())
-		// {
-		// }
-		// motorC.setSpeed(GlobalValues.START_SPEED);
-		// motorC.rotate(
-		// (int) Math.round(GlobalValues.DEGREES_OF_HALF_CIRCLE
-		// * (Math.PI * GlobalValues.VEHICLE_WIDTH)
-		// / (Math.PI * GlobalValues.WHEEL_DIAMETER)), true);
-		// motorA.setSpeed(GlobalValues.STOP_SPEED);
-		//
-		// motorC.rotate(
-		// (int) Math.round(GlobalValues.DEGREES_OF_HALF_CIRCLE
-		// * (Math.PI * GlobalValues.VEHICLE_WIDTH)
-		// / (Math.PI * GlobalValues.WHEEL_DIAMETER)), true);
-		// motorA.setSpeed(GlobalValues.STOP_SPEED);
-		// while (motorC.isMoving())
-		// {
-		// }
-		// motorA.setSpeed(GlobalValues.START_SPEED);
-		// motorC.setSpeed(GlobalValues.START_SPEED);
-		// motorA.rotate(
-		// (int) Math.round(GlobalValues.DEGREES_OF_QUARTER_CIRCLE
-		// * (Math.PI * GlobalValues.VEHICLE_WIDTH)
-		// / (Math.PI * GlobalValues.WHEEL_DIAMETER)), true);
-		// motorC.rotate(
-		// (int) Math.round(GlobalValues.DEGREES_OF_QUARTER_CIRCLE
-		// * (Math.PI * GlobalValues.VEHICLE_WIDTH)
-		// / (Math.PI * GlobalValues.WHEEL_DIAMETER)), true);
-		//
-		// while (motorC.isMoving())
-		// {
-		// }
-		// motorA.setSpeed(GlobalValues.START_SPEED);
-		// motorA.rotate(
-		// (int) Math.round(GlobalValues.DEGREES_OF_HALF_CIRCLE
-		// * (Math.PI * GlobalValues.VEHICLE_WIDTH)
-		// / (Math.PI * GlobalValues.WHEEL_DIAMETER)), true);
-		// motorC.setSpeed(GlobalValues.STOP_SPEED);
-		// while (motorA.isMoving())
-		// {
-		// }
+		Drive(24.5f);
+		DriveArc(90, false);
+		Drive(24.5f);
+		DriveArc(45, true);
 		motorA.setSpeed(GlobalValues.START_SPEED);
 		motorC.setSpeed(GlobalValues.START_SPEED);
 		motorA.forward();
