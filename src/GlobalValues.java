@@ -4,6 +4,7 @@ public class GlobalValues {
 	public static final int DEGREES_OF_CIRCLE = 360;
 	public static final int DEGREES_OF_HALF_CIRCLE = 180;
 	public static final int DEGREES_OF_QUARTER_CIRCLE = 90;
+	public static final int DEGREES_OF_ONE_EIGHT_CIRCLE = 45;
 	public static final int DEGREES_OF_WEAK_CORNER = 220;
 	public static final int CALIBRATE_SPEED = 200;
 	public static final int START_SPEED = 400;
@@ -13,6 +14,7 @@ public class GlobalValues {
 	public static final int INCREASE_SPEED = 30;
 	public static final int DECREASE_SPEED = 40;
 	public static final float MODIFIER = 1.5f;
+	public static final float EVASION = 25.5f;
 	public static final int ACTION_DIF = 10;
 	
 }

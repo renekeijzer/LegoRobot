@@ -34,7 +34,8 @@ public class AvoidanceController extends Thread implements SensorListener
 			motorA.setSpeed(GlobalValues.START_SPEED);
 			motorA.rotate(
 					(int) Math.round((degrees * 2)
-							* 2.73), true);
+							* (Math.PI * GlobalValues.VEHICLE_WIDTH)
+							/ (Math.PI * GlobalValues.WHEEL_DIAMETER)), true);
 			motorC.setSpeed(GlobalValues.STOP_SPEED);
 			while (motorA.isMoving())
 			{
@@ -67,11 +68,11 @@ public class AvoidanceController extends Thread implements SensorListener
 
 	public void DriveAround()
 	{
-		DriveArc(45, true);
-		Drive(24.5f);
-		DriveArc(90, false);
-		Drive(24.5f);
-		DriveArc(45, true);
+		DriveArc(GlobalValues.DEGREES_OF_ONE_EIGHT_CIRCLE, true);
+		Drive(GlobalValues.EVASION);
+		DriveArc(GlobalValues.DEGREES_OF_QUARTER_CIRCLE, false);
+		Drive(GlobalValues.EVASION);
+		DriveArc(GlobalValues.DEGREES_OF_ONE_EIGHT_CIRCLE, true);
 		motorA.setSpeed(GlobalValues.START_SPEED);
 		motorC.setSpeed(GlobalValues.START_SPEED);
 		motorA.forward();
