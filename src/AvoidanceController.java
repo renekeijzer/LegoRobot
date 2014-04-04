@@ -1,80 +1,119 @@
 import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
 
-public class AvoidanceController extends Thread implements SensorListener {
+public class AvoidanceController extends Thread implements SensorListener
+{
 
-	NXTRegulatedMotor motora = Motor.A;
-	NXTRegulatedMotor motorc = Motor.C;
+	private NXTRegulatedMotor motorA = Motor.A;
+	private NXTRegulatedMotor motorC = Motor.C;
+	private LineFollowerController lineFollower;
 	private boolean arcDriving;
+	private int ultraSonicSensorValue = 0;
 
-	public AvoidanceController() {
-
-		motora.setSpeed(400);
-		motorc.setSpeed(400);
-
-		motora.forward();
-		motorc.forward();
+	public AvoidanceController(LineFollowerController lineFollowerController)
+	{
+		lineFollower = lineFollowerController;
+		this.start();
 	}
 
 	public void stateChanged(UpdatingSensor updatingSensor, int oldValue,
-			int newValue) {
-		if (newValue < 25 && !arcDriving) {
+			int newValue)
+	{
+		ultraSonicSensorValue = newValue;
 
+	}
+
+	public void DriveArc()
+	{
+		motorA.setSpeed(400);
+		motorA.rotate((int) Math.round(180 * 2.73), true);
+		motorC.setSpeed(0);
+
+		while (motorA.isMoving())
+		{
+		}
+
+		motorA.setSpeed(GlobalValues.START_SPEED);
+		motorC.setSpeed(GlobalValues.START_SPEED);
+		motorA.rotate(
+				(int) Math.round(GlobalValues.DEGREES_OF_QUARTER_CIRCLE
+						* (Math.PI * GlobalValues.VEHICLE_WIDTH)
+						/ (Math.PI * GlobalValues.WHEEL_DIAMETER)), true);
+		motorC.rotate(
+				(int) Math.round(GlobalValues.DEGREES_OF_QUARTER_CIRCLE
+						* (Math.PI * GlobalValues.VEHICLE_WIDTH)
+						/ (Math.PI * GlobalValues.WHEEL_DIAMETER)), true);
+
+		while (motorC.isMoving())
+		{
+		}
+
+		motorC.setSpeed(GlobalValues.START_SPEED);
+		motorC.rotate(
+				(int) Math.round(GlobalValues.DEGREES_OF_HALF_CIRCLE
+						* (Math.PI * GlobalValues.VEHICLE_WIDTH)
+						/ (Math.PI * GlobalValues.WHEEL_DIAMETER)), true);
+		motorA.setSpeed(GlobalValues.STOP_SPEED);
+		while (motorC.isMoving())
+		{
+		}
+		motorA.setSpeed(GlobalValues.START_SPEED);
+		motorA.rotate(
+				(int) Math.round(GlobalValues.DEGREES_OF_WEAK_CORNER
+						* (Math.PI * GlobalValues.VEHICLE_WIDTH)
+						/ (Math.PI * GlobalValues.WHEEL_DIAMETER)), true);
+		motorC.rotate(
+				(int) Math.round(GlobalValues.DEGREES_OF_WEAK_CORNER
+						* (Math.PI * GlobalValues.VEHICLE_WIDTH)
+						/ (Math.PI * GlobalValues.WHEEL_DIAMETER)), true);
+		while (motorC.isMoving())
+		{
+		}
+		motorC.setSpeed(GlobalValues.START_SPEED);
+		motorC.rotate(
+				(int) Math.round(GlobalValues.DEGREES_OF_HALF_CIRCLE
+						* (Math.PI * GlobalValues.VEHICLE_WIDTH)
+						/ (Math.PI * GlobalValues.WHEEL_DIAMETER)), true);
+		motorA.setSpeed(GlobalValues.STOP_SPEED);
+
+		motorC.rotate(
+				(int) Math.round(GlobalValues.DEGREES_OF_HALF_CIRCLE
+						* (Math.PI * GlobalValues.VEHICLE_WIDTH)
+						/ (Math.PI * GlobalValues.WHEEL_DIAMETER)), true);
+		motorA.setSpeed(GlobalValues.STOP_SPEED);
+		while (motorC.isMoving())
+		{
+		}
+		motorA.setSpeed(GlobalValues.START_SPEED);
+		motorC.setSpeed(GlobalValues.START_SPEED);
+		motorA.rotate(
+				(int) Math.round(GlobalValues.DEGREES_OF_QUARTER_CIRCLE * 2.73),
+				true);
+		motorC.rotate(
+				(int) Math.round(GlobalValues.DEGREES_OF_QUARTER_CIRCLE * 2.73),
+				true);
+
+		while (motorC.isMoving())
+		{
+		}
+		motorA.setSpeed(400);
+		motorA.rotate((int) Math.round(180 * 2.73), true);
+		motorC.setSpeed(0);
+		while (motorA.isMoving())
+		{
+		}
+		lineFollower.enable();
+
+	}
+
+	public void run()
+	{
+		if (ultraSonicSensorValue < 25 && !arcDriving)
+		{
+			lineFollower.disable();
 			arcDriving = true;
-			// avoidThread.start();
 			DriveArc();
 		}
-
-	}
-
-	public void DriveArc() {
-		motora.setSpeed(400);
-		motora.rotate((int) Math.round(180 * 2.73), true);
-		motorc.setSpeed(0);
-
-		while (motora.isMoving()) {
-		}
-
-		motora.setSpeed(400);
-		motorc.setSpeed(400);
-		motora.rotate((int) Math.round(90 * 2.73), true);
-		motorc.rotate((int) Math.round(90 * 2.73), true);
-
-		while (motorc.isMoving()) {
-		}
-
-		motorc.setSpeed(400);
-		motorc.rotate((int) Math.round(180 * 2.73), true);
-		motora.setSpeed(0);
-		while (motorc.isMoving()) {
-		}
-		motora.setSpeed(400);
-		motora.rotate((int) Math.round(220 * 2.73), true);
-		motorc.rotate((int) Math.round(220 * 2.73), true);
-		while (motorc.isMoving()) {
-		}
-		motorc.setSpeed(400);
-		motorc.rotate((int) Math.round(180 * 2.73), true);
-		motora.setSpeed(0);
-
-		motorc.rotate((int) Math.round(180 * 2.73), true);
-		motora.setSpeed(0);
-		while (motorc.isMoving()) {
-		}
-		motora.setSpeed(400);
-		motorc.setSpeed(400);
-		motora.rotate((int) Math.round(90 * 2.73), true);
-		motorc.rotate((int) Math.round(90 * 2.73), true);
-
-		while (motorc.isMoving()) {
-		}
-		motora.setSpeed(400);
-		motora.rotate((int) Math.round(180 * 2.73), true);
-		motorc.setSpeed(0);
-
-	}
-
-	public void run() {
 
 	}
 
