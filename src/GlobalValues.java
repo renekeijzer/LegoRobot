@@ -1,3 +1,12 @@
+/**
+ * @author 		Ricardo<><hoofdauteur>
+ * @version 	1.1
+ * @since 		3-4-2014
+ * 
+ * This file contains all the global variables  this values are used all arround in the project
+ */
+
+
 public class GlobalValues {
 	public static final float WHEEL_DIAMETER =  4.1f;
 	public static final float VEHICLE_WIDTH =  11.193f;

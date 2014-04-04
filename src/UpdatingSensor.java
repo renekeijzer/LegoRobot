@@ -1,5 +1,5 @@
 /**
- * @author 		Floris Rijker<>
+ * @author 		Floris Rijker<><hoofdauteur>
  * @author      René Keijzer <>
  * @author 		tom Verloop <Tom_Verloop@live.nl>
  * @version     1.0

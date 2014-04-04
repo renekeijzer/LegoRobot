@@ -33,7 +33,14 @@ public class LineFollowerController extends Thread implements SensorListener
 
 		this.start();
 	}
-
+	
+	/**
+	 * State handeling when the values changed 
+	 * @param updating sensor the sensor that sended the updated state
+	 * @param oldvalue the old value of this sensor
+	 * @param newvalue the new value of this sensor
+	 * 
+	 */
 	public void stateChanged(UpdatingSensor updatingSensor, int oldValue,
 			int newValue)
 	{
@@ -47,14 +54,17 @@ public class LineFollowerController extends Thread implements SensorListener
 		}
 
 	}
-
+	
+	/**
+	 * The run method of the linecontroller
+	 */
 	@Override
 	public synchronized void run()
 	{
 		while (true)
 		{
 			if (leftSensorValue > rightSensorValue
-					&& Math.abs(leftSensorValue - rightSensorValue) > GlobalValues.ACTION_DIF)
+					&& Math.abs(leftSensorValue - rightSensorValue) > GlobalValues.ACTION_DIF) // /< if the difference between sensors is bigger then the allowed difference steer 
 			{
 				if (motorC.getSpeed() < GlobalValues.MAX_SPEED)
 				{
@@ -78,7 +88,7 @@ public class LineFollowerController extends Thread implements SensorListener
 				motorC.setSpeed(GlobalValues.START_SPEED);
 				motorA.setSpeed(GlobalValues.START_SPEED);
 			}
-			while (stopRun)
+			while (stopRun) // /< if avoidance has enabled stoprun wait
 			{
 				try
 				{

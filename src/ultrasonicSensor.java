@@ -62,9 +62,11 @@ public class ultrasonicSensor extends UltrasonicSensor implements
 		return "Ultrasonic sensor";
 	}
 
+	@Override
 	public void Calibrate() {
 		// TODO Auto-generated method stub
-
+		
 	}
+
 
 }
