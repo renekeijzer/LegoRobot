@@ -13,13 +13,13 @@ import lejos.nxt.SensorPort;
  */
 public class main
 {
-
+	private static int threeSixtyDegrees;
 	public static void main(String[] args)
 	{
 		Button.waitForAnyPress();
 		NXTRegulatedMotor motora = Motor.A;
 		NXTRegulatedMotor motorc = Motor.C;
-
+		threeSixtyDegrees = (int) Math.round(GlobalValues.DEGREES_OF_CIRCLE* (Math.PI * GlobalValues.VEHICLE_WIDTH)/ (Math.PI * GlobalValues.WHEEL_DIAMETER));
 		motora.setSpeed(GlobalValues.CALIBRATE_SPEED);
 		motorc.setSpeed(GlobalValues.CALIBRATE_SPEED);
 
@@ -30,14 +30,9 @@ public class main
 		try
 		{
 			motora.rotate(
-					(int) Math.round(GlobalValues.DEGREES_OF_CIRCLE
-							* (Math.PI * GlobalValues.VEHICLE_WIDTH)
-							/ (Math.PI * GlobalValues.WHEEL_DIAMETER)), true); // /< let the weels go round 360 degrees
+					(int) threeSixtyDegrees, true); // /< let the weels go round 360 degrees
 			motorc.rotate(
-					(int) Math.round(GlobalValues.DEGREES_OF_CIRCLE
-							* (Math.PI * GlobalValues.VEHICLE_WIDTH)
-							/ (Math.PI * GlobalValues.WHEEL_DIAMETER) * -1), // /<let the wheels go round 360 degrees
-					true);
+					(int) threeSixtyDegrees * -1,true); // /<let the wheels go round 360 degrees
 		} catch (Exception Ex)
 		{
 			Ex.printStackTrace();
