@@ -19,9 +19,12 @@ public class LineFollowerController extends Thread implements SensorListener
 	private int leftSensorValue = 0;
 	private int rightSensorValue = 0;
 	private boolean stopRun = false;
-
+	private long sysTime = System.currentTimeMillis();
+	private long currentTime = System.currentTimeMillis();
+	
 	public LineFollowerController()
 	{
+		currentTime -= sysTime;
 		motorA = Motor.A;
 		motorC = Motor.C;
 		motorA.setSpeed(GlobalValues.START_SPEED);
@@ -63,26 +66,35 @@ public class LineFollowerController extends Thread implements SensorListener
 	{
 		while (true)
 		{
+
+			currentTime = System.currentTimeMillis() - sysTime;
 			if (leftSensorValue > rightSensorValue
 					&& Math.abs(leftSensorValue - rightSensorValue) > GlobalValues.ACTION_DIF) // /< if the difference between sensors is bigger then the allowed difference steer 
 			{
 				if (motorC.getSpeed() < GlobalValues.MAX_SPEED)
 				{
+					if(currentTime > GlobalValues.ACCELERATIONTIME){
 					motorC.setSpeed(motorC.getSpeed()
 							+ GlobalValues.INCREASE_SPEED);
 					motorA.setSpeed(motorA.getSpeed()
-							- GlobalValues.DECREASE_SPEED);
+						- GlobalValues.DECREASE_SPEED);
+					sysTime = System.currentTimeMillis();
+					}	
 				}
 			} else if (leftSensorValue < rightSensorValue
 					&& Math.abs(leftSensorValue - rightSensorValue) > GlobalValues.ACTION_DIF)
 			{
 				if (motorC.getSpeed() > GlobalValues.MIN_SPEED)
 				{
+					if(currentTime > GlobalValues.ACCELERATIONTIME){
 					motorC.setSpeed(motorC.getSpeed()
 							- GlobalValues.DECREASE_SPEED);
 					motorA.setSpeed(motorA.getSpeed()
 							+ GlobalValues.INCREASE_SPEED);
-				}
+					sysTime = System.currentTimeMillis();
+					}	
+					}
+					
 			} else
 			{
 				motorC.setSpeed(GlobalValues.START_SPEED);
