@@ -67,7 +67,10 @@ public class SensorHandler extends Thread {
 	public void addSensor(UpdatingSensor updatingSensor) {
 		sensorList.add(updatingSensor);
 	}
-
+	
+	/**
+	 * this method calibrates all the sensors at once
+	 */
 	public void massCalibrate() {
 		if (sensorList.size() > 0) {
 			for (UpdatingSensor us : sensorList) {
