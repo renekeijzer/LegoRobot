@@ -102,14 +102,19 @@ public class LineFollowerController extends Thread implements SensorListener
 			}
 		}
 	}
-
+	/**
+	 * sets boolean to false
+	 * notifies all threads
+	 */
 	public synchronized void enable()
 	{
 		stopRun = false;
 		notifyAll();
 		System.out.println("GO!");
 	}
-
+	/**
+	 * sets boolean to true
+	 */
 	public void disable()
 	{
 		System.out.println("DISABLED!");
