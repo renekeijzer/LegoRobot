@@ -67,7 +67,11 @@ public class SensorHandler extends Thread {
 	public void addSensor(UpdatingSensor updatingSensor) {
 		sensorList.add(updatingSensor);
 	}
-
+	/**
+	 * calibrates the light and the color sensor if they are added into the arraylist
+	 * 
+	 * 
+	 */
 	public void massCalibrate() {
 		if (sensorList.size() > 0) {
 			for (UpdatingSensor us : sensorList) {

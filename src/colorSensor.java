@@ -22,6 +22,12 @@ public class colorSensor extends ColorSensor implements UpdatingSensor {
 	private ArrayList<SensorListener> listenerList; // /< keeps a list of
 													// Sensorlisteners
 
+	/**
+	 * 
+	 * @param port
+	 * 				the sensor to add
+	 */
+	
 	public colorSensor(SensorPort port) {
 		super(port);
 		this.setFloodlight(true);
