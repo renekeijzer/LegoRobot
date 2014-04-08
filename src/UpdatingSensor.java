@@ -1,5 +1,5 @@
 /**
- * @author 		Floris Rijker<>
+ * @author 		Floris Rijker<><hoofdauteur>
  * @author      René Keijzer <>
  * @author 		tom Verloop <Tom_Verloop@live.nl>
  * @version     1.0
@@ -15,5 +15,8 @@ public interface UpdatingSensor {
 	
 	public void updateState();
 	
+	/**
+	 * An abstract method that calibrates the sensors
+	 */
 	public void Calibrate();
 }

@@ -17,7 +17,11 @@ public class ultrasonicSensor extends UltrasonicSensor implements
 	private int Distance; // /< the distance of the sensor to an object
 	private ArrayList<SensorListener> listenerList; // /< a list of sensor
 													// listeners
-
+	/**
+	 * initiating the ultrasonic sensor object 
+	 * @param port
+	 * 			the sensor port of the ultrasonic sensor
+	 */
 	public ultrasonicSensor(I2CPort port) {
 		super(port);
 		listenerList = new ArrayList<SensorListener>();
@@ -62,9 +66,14 @@ public class ultrasonicSensor extends UltrasonicSensor implements
 		return "Ultrasonic sensor";
 	}
 
+	/**
+	 * calibrates the ultrasonic sensor
+	 */
+	@Override
 	public void Calibrate() {
 		// TODO Auto-generated method stub
-
+		
 	}
+
 
 }

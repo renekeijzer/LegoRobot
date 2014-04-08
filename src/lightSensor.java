@@ -68,6 +68,9 @@ public class lightSensor extends LightSensor implements UpdatingSensor {
 		return "Light sensor";
 	}
 
+	/**
+	 * Calibrates the normalized value of the lightsensor
+	 */
 	public void Calibrate() {
 		int value = this.readNormalizedValue();
 		if (value < _low) {
@@ -83,11 +86,6 @@ public class lightSensor extends LightSensor implements UpdatingSensor {
 	 */
 	public int getValue()
 	{
-		// LCD.drawInt(_low, 0, 2);
-
-		// LCD.drawInt(_high, 0, 3);
 			return 100 * (readNormalizedValue() - _low) / (_high - _low);
-		
-
 	}
 }

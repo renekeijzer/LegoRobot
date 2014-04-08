@@ -8,7 +8,7 @@ import lejos.nxt.SensorPort;
  * @author Ricardo methai<><hoofd auteur>
  * @author René Keijzer <>
  * @author tom Verloop <Tom_Verloop@live.nl>
- * @version 1.0
+ * @version 1.2
  * @since 18-3-2014
  * 
  *        Container class of the Color Sensor
@@ -22,6 +22,12 @@ public class colorSensor extends ColorSensor implements UpdatingSensor {
 	private ArrayList<SensorListener> listenerList; // /< keeps a list of
 													// Sensorlisteners
 
+	/**
+	 * 
+	 * @param port
+	 * 				the sensor to add
+	 */
+	
 	public colorSensor(SensorPort port) {
 		super(port);
 		this.setFloodlight(true);
@@ -35,6 +41,7 @@ public class colorSensor extends ColorSensor implements UpdatingSensor {
 
 	/**
 	 * Handles the update to the listeners
+	 * for each listener in the list statechanged is called
 	 */
 	public void updateState() {
 		int newLightValue = this.getValue();
@@ -66,6 +73,9 @@ public class colorSensor extends ColorSensor implements UpdatingSensor {
 		return "Color sensor";
 	}
 
+	/**
+	 * Calibrating the color sensor
+	 */
 	public void Calibrate() {
 		int value = getNormalizedLightValue();
 		if (value < _low) {
@@ -75,11 +85,12 @@ public class colorSensor extends ColorSensor implements UpdatingSensor {
 			_high = value;
 	}
 
+	/**
+	 * returns the normalized value between 0-100
+	 * @return returns the calibrated lightvalue between 0-100
+	 */
 	public int getValue()
-
 	{
-		//LCD.drawInt(_low, 0, 2);
-		//LCD.drawInt(_high, 0, 3);
 		return 100 * (getNormalizedLightValue() - _low) / (_high - _low);
 	}
 

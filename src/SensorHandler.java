@@ -42,12 +42,12 @@ public class SensorHandler extends Thread {
 	@Override
 	public void run() {
 		while (!this.isInterrupted()) {
-			try {
-				this.sleep(50);
-			} catch (InterruptedException e) {
+		//	try {
+				//this.sleep();
+	//		} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		//		e.printStackTrace();
+			//}
 			if (sensorList.size() > 0) {
 				for (UpdatingSensor us : sensorList) {
 					us.updateState();
@@ -67,7 +67,11 @@ public class SensorHandler extends Thread {
 	public void addSensor(UpdatingSensor updatingSensor) {
 		sensorList.add(updatingSensor);
 	}
-
+	/**
+	 * calibrates the light and the color sensor if they are added into the arraylist
+	 * 
+	 * 
+	 */
 	public void massCalibrate() {
 		if (sensorList.size() > 0) {
 			for (UpdatingSensor us : sensorList) {

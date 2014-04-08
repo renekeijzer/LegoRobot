@@ -19,9 +19,12 @@ public class LineFollowerController extends Thread implements SensorListener
 	private int leftSensorValue = 0;
 	private int rightSensorValue = 0;
 	private boolean stopRun = false;
-
+	private long sysTime = System.currentTimeMillis();
+	private long currentTime = System.currentTimeMillis();
+	
 	public LineFollowerController()
 	{
+		currentTime -= sysTime;
 		motorA = Motor.A;
 		motorC = Motor.C;
 		motorA.setSpeed(GlobalValues.START_SPEED);
@@ -33,7 +36,14 @@ public class LineFollowerController extends Thread implements SensorListener
 
 		this.start();
 	}
-
+	
+	/**
+	 * State handeling when the values changed 
+	 * @param updating sensor the sensor that sended the updated state
+	 * @param oldvalue the old value of this sensor
+	 * @param newvalue the new value of this sensor
+	 * 
+	 */
 	public void stateChanged(UpdatingSensor updatingSensor, int oldValue,
 			int newValue)
 	{
@@ -47,38 +57,50 @@ public class LineFollowerController extends Thread implements SensorListener
 		}
 
 	}
-
+	
+	/**
+	 * The run method of the linecontroller
+	 */
 	@Override
 	public synchronized void run()
 	{
 		while (true)
 		{
+			
+			currentTime = System.currentTimeMillis() - sysTime;
 			if (leftSensorValue > rightSensorValue
-					&& Math.abs(leftSensorValue - rightSensorValue) > GlobalValues.ACTION_DIF)
+					&& Math.abs(leftSensorValue - rightSensorValue) > GlobalValues.ACTION_DIF) // /< if the difference between sensors is bigger then the allowed difference steer 
 			{
-				if (motorC.getSpeed() < GlobalValues.MAX_SPEED)
+				if (motorC.getSpeed() < GlobalValues.MAX_SPEED && motorA.getSpeed() > GlobalValues.MIN_SPEED)
 				{
+					if(currentTime > GlobalValues.ACCELERATIONTIME){
 					motorC.setSpeed(motorC.getSpeed()
 							+ GlobalValues.INCREASE_SPEED);
 					motorA.setSpeed(motorA.getSpeed()
-							- GlobalValues.DECREASE_SPEED);
+						- GlobalValues.DECREASE_SPEED);
+					sysTime = System.currentTimeMillis();
+					}	
 				}
 			} else if (leftSensorValue < rightSensorValue
 					&& Math.abs(leftSensorValue - rightSensorValue) > GlobalValues.ACTION_DIF)
 			{
-				if (motorC.getSpeed() > GlobalValues.MIN_SPEED)
+				if (motorC.getSpeed() > GlobalValues.MIN_SPEED && motorA.getSpeed() < GlobalValues.MAX_SPEED)
 				{
+					if(currentTime > GlobalValues.ACCELERATIONTIME){
 					motorC.setSpeed(motorC.getSpeed()
 							- GlobalValues.DECREASE_SPEED);
 					motorA.setSpeed(motorA.getSpeed()
 							+ GlobalValues.INCREASE_SPEED);
-				}
+					sysTime = System.currentTimeMillis();
+					}	
+					}
+					
 			} else
 			{
 				motorC.setSpeed(GlobalValues.START_SPEED);
 				motorA.setSpeed(GlobalValues.START_SPEED);
 			}
-			while (stopRun)
+			while (stopRun) // /< if avoidance has enabled stoprun wait
 			{
 				try
 				{
@@ -92,14 +114,19 @@ public class LineFollowerController extends Thread implements SensorListener
 			}
 		}
 	}
-
+	/**
+	 * sets boolean to false
+	 * notifies all threads
+	 */
 	public synchronized void enable()
 	{
 		stopRun = false;
 		notifyAll();
 		System.out.println("GO!");
 	}
-
+	/**
+	 * sets boolean to true
+	 */
 	public void disable()
 	{
 		System.out.println("DISABLED!");
