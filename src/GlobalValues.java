@@ -14,7 +14,7 @@ public class GlobalValues {
 	public static final int DEGREES_OF_QUARTER_CIRCLE = 90;
 	public static final int DEGREES_OF_ONE_EIGHT_CIRCLE = 45;
 	public static final int CALIBRATE_SPEED = 200;
-	public static final int START_SPEED = 400;
+	public static final int START_SPEED = 200;
 	public static final int STOP_SPEED = 0;
 	public static final int MAX_SPEED = 750;
 	public static final int MIN_SPEED = 50;
