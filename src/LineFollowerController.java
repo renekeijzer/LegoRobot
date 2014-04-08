@@ -16,12 +16,15 @@ public class LineFollowerController extends Thread implements SensorListener
 
 	private NXTRegulatedMotor motorA;
 	private NXTRegulatedMotor motorC;
-	private int leftSensorValue = 0;
-	private int rightSensorValue = 0;
+	private int lightSensorValue = 0;
+	private int colorSensorValue = 0;
 	private boolean stopRun = false;
 	private long sysTime = System.currentTimeMillis();
 	private long currentTime = System.currentTimeMillis();
-	
+	private state line = state.straight;
+	private state oldline = state.straight;
+	private int statetimer = 0;
+
 	public LineFollowerController()
 	{
 		currentTime -= sysTime;
@@ -31,17 +34,21 @@ public class LineFollowerController extends Thread implements SensorListener
 		motorC.setSpeed(GlobalValues.START_SPEED);
 		motorA.forward();
 		motorC.forward();
-		leftSensorValue = 0;
-		rightSensorValue = 0;
+		lightSensorValue = 0;
+		colorSensorValue = 0;
 
 		this.start();
 	}
-	
+
 	/**
-	 * State handeling when the values changed 
-	 * @param updating sensor the sensor that sended the updated state
-	 * @param oldvalue the old value of this sensor
-	 * @param newvalue the new value of this sensor
+	 * State handeling when the values changed
+	 * 
+	 * @param updating
+	 *            sensor the sensor that sended the updated state
+	 * @param oldvalue
+	 *            the old value of this sensor
+	 * @param newvalue
+	 *            the new value of this sensor
 	 * 
 	 */
 	public void stateChanged(UpdatingSensor updatingSensor, int oldValue,
@@ -49,15 +56,15 @@ public class LineFollowerController extends Thread implements SensorListener
 	{
 		if (updatingSensor.toString().equals("Color sensor"))
 		{
-			rightSensorValue = newValue;
+			colorSensorValue = newValue;
 		}
 		if (updatingSensor.toString().equals("Light sensor"))
 		{
-			leftSensorValue = newValue;
+			lightSensorValue = newValue;
 		}
 
 	}
-	
+
 	/**
 	 * The run method of the linecontroller
 	 */
@@ -66,36 +73,89 @@ public class LineFollowerController extends Thread implements SensorListener
 	{
 		while (true)
 		{
-			
+
+			LCD.clear();
+			LCD.drawInt(lightSensorValue, 0, 0);
+			LCD.drawInt(colorSensorValue, 0, 1);
+			LCD.drawString(line.toString(), 0, 2);
 			currentTime = System.currentTimeMillis() - sysTime;
-			if (leftSensorValue > rightSensorValue
-					&& Math.abs(leftSensorValue - rightSensorValue) > GlobalValues.ACTION_DIF) // /< if the difference between sensors is bigger then the allowed difference steer 
+			try
 			{
-				if (motorC.getSpeed() < GlobalValues.MAX_SPEED && motorA.getSpeed() > GlobalValues.MIN_SPEED)
-				{
-					if(currentTime > GlobalValues.ACCELERATIONTIME){
-					motorC.setSpeed(motorC.getSpeed()
-							+ GlobalValues.INCREASE_SPEED);
-					motorA.setSpeed(motorA.getSpeed()
-						- GlobalValues.DECREASE_SPEED);
-					sysTime = System.currentTimeMillis();
-					}	
-				}
-			} else if (leftSensorValue < rightSensorValue
-					&& Math.abs(leftSensorValue - rightSensorValue) > GlobalValues.ACTION_DIF)
+				Thread.sleep(10);
+			} catch (InterruptedException e)
 			{
-				if (motorC.getSpeed() > GlobalValues.MIN_SPEED && motorA.getSpeed() < GlobalValues.MAX_SPEED)
-				{
-					if(currentTime > GlobalValues.ACCELERATIONTIME){
-					motorC.setSpeed(motorC.getSpeed()
-							- GlobalValues.DECREASE_SPEED);
-					motorA.setSpeed(motorA.getSpeed()
-							+ GlobalValues.INCREASE_SPEED);
-					sysTime = System.currentTimeMillis();
-					}	
-					}
-					
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			if (line != state.straight && lightSensorValue > 90
+					&& colorSensorValue < 10)
+			{
+				line = state.straight;
+			}
+			else if (line == state.straight && lightSensorValue < 10
+					&& colorSensorValue > 90)
+			{
+				line = state.left;
+			}
+			else if (line == state.left && lightSensorValue > 90
+					&& colorSensorValue > 90)
+			{
+				line = state.left;
+			}
+			else if (line == state.straight && lightSensorValue > 90
+					&& colorSensorValue > 90)
+			{
+				line = state.right;
+			}
+
+			if (oldline == line)
+			{
+				statetimer++;
 			} else
+			{
+				LCD.clear();
+				LCD.drawInt(lightSensorValue, 0, 0);
+				LCD.drawInt(colorSensorValue, 0, 1);
+				LCD.drawString(line.toString(), 0, 2);
+				statetimer = 0;
+			}
+
+			oldline = line;
+
+
+			if (line == state.right) // /< if the difference between sensors is
+										// bigger then the allowed difference
+										// steer
+			{
+				if (motorC.getSpeed() < GlobalValues.MAX_SPEED
+						&& motorA.getSpeed() > GlobalValues.MIN_SPEED)
+				{
+					if (currentTime > GlobalValues.ACCELERATIONTIME)
+					{
+						motorC.setSpeed(motorC.getSpeed()
+								+ GlobalValues.INCREASE_SPEED);
+						motorA.setSpeed(motorA.getSpeed()
+								- GlobalValues.DECREASE_SPEED);
+						sysTime = System.currentTimeMillis();
+					}
+				}
+			} else if (line == state.left)
+			{
+				if (motorC.getSpeed() > GlobalValues.MIN_SPEED
+						&& motorA.getSpeed() < GlobalValues.MAX_SPEED)
+				{
+					if (currentTime > GlobalValues.ACCELERATIONTIME)
+					{
+						motorC.setSpeed(motorC.getSpeed()
+								- GlobalValues.DECREASE_SPEED);
+						motorA.setSpeed(motorA.getSpeed()
+								+ GlobalValues.INCREASE_SPEED);
+						sysTime = System.currentTimeMillis();
+					}
+				}
+
+			} else if (line == state.straight)
 			{
 				motorC.setSpeed(GlobalValues.START_SPEED);
 				motorA.setSpeed(GlobalValues.START_SPEED);
@@ -114,22 +174,23 @@ public class LineFollowerController extends Thread implements SensorListener
 			}
 		}
 	}
+
 	/**
-	 * sets boolean to false
-	 * notifies all threads
+	 * sets boolean to false notifies all threads
 	 */
 	public synchronized void enable()
 	{
 		stopRun = false;
 		notifyAll();
-		System.out.println("GO!");
+		// System.out.println("GO!");
 	}
+
 	/**
 	 * sets boolean to true
 	 */
 	public void disable()
 	{
-		System.out.println("DISABLED!");
+		// System.out.println("DISABLED!");
 		stopRun = true;
 	}
 }
