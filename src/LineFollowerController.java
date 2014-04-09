@@ -73,11 +73,11 @@ public class LineFollowerController extends Thread implements SensorListener
 	{
 		while (true)
 		{
-
 			LCD.clear();
 			LCD.drawInt(lightSensorValue, 0, 0);
 			LCD.drawInt(colorSensorValue, 0, 1);
 			LCD.drawString(line.toString(), 0, 2);
+
 			currentTime = System.currentTimeMillis() - sysTime;
 			try
 			{
@@ -88,23 +88,23 @@ public class LineFollowerController extends Thread implements SensorListener
 				e.printStackTrace();
 			}
 
-			if (line != state.straight && lightSensorValue > 90
-					&& colorSensorValue < 10)
+			if (line != state.straight && lightSensorValue > GlobalValues.WHITE
+					&& colorSensorValue < GlobalValues.BLACK)
 			{
 				line = state.straight;
 			}
-			else if (line == state.straight && lightSensorValue < 10
-					&& colorSensorValue > 90)
+			else if (line == state.straight && lightSensorValue < GlobalValues.BLACK
+					&& colorSensorValue > GlobalValues.WHITE)
 			{
 				line = state.left;
 			}
-			else if (line == state.left && lightSensorValue > 90
-					&& colorSensorValue > 90)
+			else if (line == state.left && lightSensorValue > GlobalValues.WHITE
+					&& colorSensorValue > GlobalValues.WHITE)
 			{
 				line = state.left;
 			}
-			else if (line == state.straight && lightSensorValue > 90
-					&& colorSensorValue > 90)
+			else if (line == state.straight && lightSensorValue > GlobalValues.WHITE
+					&& colorSensorValue > GlobalValues.WHITE)
 			{
 				line = state.right;
 			}
@@ -115,18 +115,16 @@ public class LineFollowerController extends Thread implements SensorListener
 			} else
 			{
 				LCD.clear();
-				LCD.drawInt(lightSensorValue, 0, 0);
-				LCD.drawInt(colorSensorValue, 0, 1);
-				LCD.drawString(line.toString(), 0, 2);
+				LCD.drawInt(lightSensorValue, 0, 4);
+				LCD.drawInt(colorSensorValue, 0, 5);
+				LCD.drawString(line.toString(), 0, 6);
 				statetimer = 0;
+				oldline = line;
 			}
 
-			oldline = line;
 
 
-			if (line == state.right) // /< if the difference between sensors is
-										// bigger then the allowed difference
-										// steer
+			if (line == state.right) 
 			{
 				if (motorC.getSpeed() < GlobalValues.MAX_SPEED
 						&& motorA.getSpeed() > GlobalValues.MIN_SPEED)
