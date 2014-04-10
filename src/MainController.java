@@ -11,7 +11,7 @@ import lejos.nxt.SensorPort;
  * 
  *        Main class
  */
-public class main
+public class MainController
 {
 	
 	private static int threeSixtyDegrees;
