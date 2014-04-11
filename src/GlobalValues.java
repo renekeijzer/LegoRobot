@@ -3,7 +3,7 @@
  * @version 	1.1
  * @since 		3-4-2014
  * 
- * This file contains all the global variables  this values are used all around in the project
+ * This file contains all the global variables  this values are used all arround in the project
  */
 
 
@@ -20,7 +20,7 @@ public class GlobalValues {
 	public static final int MIN_SPEED = 50;
 	public static final int INCREASE_SPEED = 30;
 	public static final int DECREASE_SPEED = 40;
-	public static final float EVASION = 27.5f;
+	public static final float EVASION = 25.5f;
 	public static final int ACCELERATIONTIME = 100;
 	public static final int WHITE = 90;
 	public static final int BLACK = 40;
