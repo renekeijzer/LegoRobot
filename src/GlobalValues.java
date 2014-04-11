@@ -21,7 +21,6 @@ public class GlobalValues {
 	public static final int INCREASE_SPEED = 30;
 	public static final int DECREASE_SPEED = 40;
 	public static final float EVASION = 25.5f;
-	public static final int ACCELERATIONTIME = 100;
-	public static final int WHITE = 90;
-	public static final int BLACK = 40;
+	public static final int ACTION_DIF = 10;
+	public static final int ACCELERATIONTIME = 50;
 }
