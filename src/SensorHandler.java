@@ -51,6 +51,7 @@ public class SensorHandler extends Thread {
 			if (sensorList.size() > 0) {
 				for (UpdatingSensor us : sensorList) {
 					us.updateState();
+
 				}
 			}
 		}

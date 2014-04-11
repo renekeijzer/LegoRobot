@@ -43,10 +43,10 @@ public class main
 		}
 		SensorHandler.getInstance().start();
 		LineFollowerController lineFollowController = new LineFollowerController();
-		//AvoidanceController avoidanceController = new AvoidanceController(
-		//		lineFollowController);
+		AvoidanceController avoidanceController = new AvoidanceController(
+				lineFollowController);
 
-		//ultrasonicSensor.addListener(avoidanceController); // /< Adding listeners to the sensors
+		ultrasonicSensor.addListener(avoidanceController); // /< Adding listeners to the sensors
 		lightSensor.addListener(lineFollowController); // /< Adding listeners to the sensors
 		colorSensor.addListener(lineFollowController); // /< Adding listeners to the sensors
 
