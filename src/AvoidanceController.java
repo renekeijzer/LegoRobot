@@ -20,7 +20,7 @@ public class AvoidanceController extends Thread implements SensorListener
 	private NXTRegulatedMotor motorA = Motor.A;
 	private NXTRegulatedMotor motorC = Motor.C;
 	private LineFollowerController lineFollower;
-	private boolean arcDriving = false;
+	private boolean arcDriving;
 	private int ultraSonicSensorValue = 255;
 
 	/**
