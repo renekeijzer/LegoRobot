@@ -66,12 +66,12 @@ public class LineFollowerController extends Thread implements SensorListener
 	{
 		while (true)
 		{
-			
+
 			currentTime = System.currentTimeMillis() - sysTime;
 			if (leftSensorValue > rightSensorValue
 					&& Math.abs(leftSensorValue - rightSensorValue) > GlobalValues.ACTION_DIF) // /< if the difference between sensors is bigger then the allowed difference steer 
 			{
-				if (motorC.getSpeed() < GlobalValues.MAX_SPEED && motorA.getSpeed() > GlobalValues.MIN_SPEED)
+				if (motorC.getSpeed() < GlobalValues.MAX_SPEED)
 				{
 					if(currentTime > GlobalValues.ACCELERATIONTIME){
 					motorC.setSpeed(motorC.getSpeed()
@@ -84,7 +84,7 @@ public class LineFollowerController extends Thread implements SensorListener
 			} else if (leftSensorValue < rightSensorValue
 					&& Math.abs(leftSensorValue - rightSensorValue) > GlobalValues.ACTION_DIF)
 			{
-				if (motorC.getSpeed() > GlobalValues.MIN_SPEED && motorA.getSpeed() < GlobalValues.MAX_SPEED)
+				if (motorC.getSpeed() > GlobalValues.MIN_SPEED)
 				{
 					if(currentTime > GlobalValues.ACCELERATIONTIME){
 					motorC.setSpeed(motorC.getSpeed()

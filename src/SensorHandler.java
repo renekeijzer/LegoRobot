@@ -42,12 +42,12 @@ public class SensorHandler extends Thread {
 	@Override
 	public void run() {
 		while (!this.isInterrupted()) {
-		//	try {
-				//this.sleep();
-	//		} catch (InterruptedException e) {
+			try {
+				this.sleep(50);
+			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
-		//		e.printStackTrace();
-			//}
+				e.printStackTrace();
+			}
 			if (sensorList.size() > 0) {
 				for (UpdatingSensor us : sensorList) {
 					us.updateState();
